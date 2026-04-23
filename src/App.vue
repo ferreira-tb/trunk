@@ -54,8 +54,8 @@ useColorMode({
         <Input v-model="searchValue" :style="{ width: toPixel(tableWidth) }" />
       </div>
 
-      <div class="h-full max-w-min overflow-x-hidden overflow-y-auto pr-6">
-        <Table ref="tableEl" class="min-w-max max-w-min">
+      <div class="size-full overflow-auto pr-4">
+        <Table ref="tableEl" class="min-w-max">
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
