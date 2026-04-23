@@ -1,0 +1,25 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+**/node_modules
+*.local
+.eslintcache
+
+# Output
+/build
+dist
+target
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+.vite
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+
+config.json
