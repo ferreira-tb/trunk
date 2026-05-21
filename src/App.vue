@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import Fuse from 'fuse.js/basic';
-import { toPixel } from '@tb-dev/utils';
-import { useColorMode } from '@vueuse/core';
-import { computed, useTemplateRef } from 'vue';
-import { asyncRef, sessionRef, useWidth } from '@tb-dev/vue';
-import { Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@tb-dev/vue-components';
+import Fuse from "fuse.js/basic";
+import { compare } from "@/lib/intl";
+import { toPixel } from "@tb-dev/utils";
+import { useColorMode } from "@vueuse/core";
+import { computed, useTemplateRef } from "vue";
+import { asyncRef, sessionRef, useWidth } from "@tb-dev/vue";
+import { Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@tb-dev/vue-components";
 
 interface TrunkEntry {
   readonly card_id: string;
@@ -13,14 +14,14 @@ interface TrunkEntry {
 }
 
 const { state: trunk } = asyncRef<readonly TrunkEntry[]>([], async () => {
-  return fetch('trunk.json').then((it) => it.json());
+  return fetch("trunk.json").then((it) => it.json());
 });
 
-const searchValue = sessionRef('trunk-search', '');
+const searchValue = sessionRef("trunk-search", "");
 
 const fuse = computed(() => {
   return new Fuse(trunk.value, {
-    keys: ['name'],
+    keys: ["name"],
     threshold: 0.2,
     ignoreLocation: true,
     isCaseSensitive: false,
@@ -31,18 +32,20 @@ const cards = computed(() => {
   const value = searchValue.value.trim();
   if (value) {
     const results = fuse.value.search(value);
-    return results.map((it) => it.item);
+    return results
+      .map((it) => it.item)
+      .toSorted((a, b) => compare(a.name, b.name));
   }
   else {
     return trunk.value;
   }
 });
 
-const table = useTemplateRef('tableEl');
+const table = useTemplateRef("tableEl");
 const tableWidth = useWidth(table);
 
 useColorMode({
-  initialValue: 'dark',
+  initialValue: "dark",
   writeDefaults: true,
 });
 </script>
