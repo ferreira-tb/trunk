@@ -29,7 +29,7 @@ jobs:
         uses: actions/configure-pages@v6
 
       - run: |
-          pnpm install
+          pnpm ci
           pnpm run build
           touch dist/.nojekyll
 
