@@ -62,14 +62,14 @@ useColorMode({
         <Table ref="tableEl" class="min-w-max">
           <TableHeader>
             <TableRow>
-              <TableHead></TableHead>
+              <TableHead class="max-w-max"></TableHead>
               <TableHead>Name</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <template v-for="card of cards" :key="card.card_id">
               <TableRow>
-                <TableCell>{{ card.amount }}</TableCell>
+                <TableCell class="max-w-max">{{ card.amount }}</TableCell>
                 <TableCell>{{ card.name }}</TableCell>
               </TableRow>
             </template>
