@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import Fuse from "fuse.js/basic";
 import { compare } from "@/lib/intl";
-import { toPixel } from "@tb-dev/utils";
 import { useColorMode } from "@vueuse/core";
 import { computed, useTemplateRef } from "vue";
+import { type Option, toPixel } from "@tb-dev/utils";
 import { asyncRef, sessionRef, useWidth } from "@tb-dev/vue";
 import { Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@tb-dev/vue-components";
 
 interface TrunkEntry {
   readonly card_id: string;
   readonly name: string;
+  readonly archetype: Option<string>;
   readonly amount: number;
 }
 
@@ -21,7 +22,7 @@ const searchValue = sessionRef("trunk-search", "");
 
 const fuse = computed(() => {
   return new Fuse(trunk.value, {
-    keys: ["name"],
+    keys: ["name", "archetype"],
     threshold: 0.2,
     ignoreLocation: true,
     isCaseSensitive: false,
