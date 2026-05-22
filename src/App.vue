@@ -5,7 +5,7 @@ import { useColorMode } from "@vueuse/core";
 import { computed, useTemplateRef } from "vue";
 import { type Option, toPixel } from "@tb-dev/utils";
 import { asyncRef, sessionRef, useWidth } from "@tb-dev/vue";
-import { Input, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@tb-dev/vue-components";
+import { Input, Table, TableBody, TableCell, TableRow } from "@tb-dev/vue-components";
 
 interface TrunkEntry {
   readonly card_id: string;
@@ -60,17 +60,15 @@ useColorMode({
 
       <div class="size-full overflow-auto pr-4">
         <Table ref="tableEl" class="min-w-max">
-          <TableHeader>
-            <TableRow>
-              <TableHead class="max-w-max"></TableHead>
-              <TableHead>Name</TableHead>
-            </TableRow>
-          </TableHeader>
           <TableBody>
             <template v-for="card of cards" :key="card.card_id">
               <TableRow>
-                <TableCell class="max-w-max">{{ card.amount }}</TableCell>
-                <TableCell>{{ card.name }}</TableCell>
+                <TableCell class="max-w-max p-0">
+                  <span class="px-2">{{ card.amount }}</span>
+                </TableCell>
+                <TableCell>
+                  <span>{{ card.name }}</span>
+                </TableCell>
               </TableRow>
             </template>
           </TableBody>
