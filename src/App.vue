@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { compare } from "@/lib/intl";
-import { useColorMode } from "@vueuse/core";
 import { FuseWorker } from "fuse.js/worker";
 import { type Option, toPixel } from "@tb-dev/utils";
+import { useColorMode, watchDebounced } from "@vueuse/core";
 import { asyncRef, sessionRef, useWidth } from "@tb-dev/vue";
 import { Input, Table, TableBody, TableCell, TableRow } from "@tb-dev/vue-components";
 import { nextTick, onMounted, onUnmounted, shallowRef, useTemplateRef, watch } from "vue";
@@ -30,11 +30,6 @@ const fuse = new FuseWorker([] as TrunkEntry[], {
   numWorkers: 4,
 });
 
-watch(() => trunk.value, async (values) => {
-  await fuse.setCollection(values);
-  await update();
-});
-
 const cards = shallowRef<TrunkEntry[]>([]);
 
 const table = useTemplateRef("tableEl");
@@ -43,6 +38,16 @@ const tableWidth = useWidth(table);
 useColorMode({
   initialValue: "dark",
   writeDefaults: true,
+});
+
+watch(() => trunk.value, async (values) => {
+  await fuse.setCollection(values);
+  await update();
+});
+
+watchDebounced(searchValue, update, {
+  debounce: 300,
+  maxWait: 1000,
 });
 
 onMounted(async () => {
