@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import Fuse from "fuse.js/basic";
 import { compare } from "@/lib/intl";
 import { useColorMode } from "@vueuse/core";
-import { computed, useTemplateRef } from "vue";
+import { FuseWorker } from "fuse.js/worker";
 import { type Option, toPixel } from "@tb-dev/utils";
 import { asyncRef, sessionRef, useWidth } from "@tb-dev/vue";
 import { Input, Table, TableBody, TableCell, TableRow } from "@tb-dev/vue-components";
+import { nextTick, onMounted, onUnmounted, shallowRef, useTemplateRef, watch } from "vue";
 
 interface TrunkEntry {
   readonly card_id: string;
@@ -15,33 +15,27 @@ interface TrunkEntry {
   readonly amount: number;
 }
 
-const { state: trunk } = asyncRef<readonly TrunkEntry[]>([], async () => {
+const { state: trunk } = asyncRef<TrunkEntry[]>([], async () => {
   return fetch("trunk.json").then((it) => it.json());
 });
 
 const searchValue = sessionRef("trunk-search", "");
 
-const fuse = computed(() => {
-  return new Fuse(trunk.value, {
-    keys: ["name", "name_pt", "archetype"],
-    threshold: 0.2,
-    ignoreLocation: true,
-    isCaseSensitive: false,
-  });
+const fuse = new FuseWorker([] as TrunkEntry[], {
+  keys: ["name", "name_pt", "archetype"],
+  threshold: 0.2,
+  ignoreLocation: true,
+  isCaseSensitive: false,
+}, {
+  numWorkers: 4,
 });
 
-const cards = computed(() => {
-  const value = searchValue.value.trim();
-  if (value) {
-    const results = fuse.value.search(value);
-    return results
-      .map((it) => it.item)
-      .toSorted((a, b) => compare(a.name, b.name));
-  }
-  else {
-    return trunk.value;
-  }
+watch(() => trunk.value, async (values) => {
+  await fuse.setCollection(values);
+  await update();
 });
+
+const cards = shallowRef<TrunkEntry[]>([]);
 
 const table = useTemplateRef("tableEl");
 const tableWidth = useWidth(table);
@@ -50,6 +44,34 @@ useColorMode({
   initialValue: "dark",
   writeDefaults: true,
 });
+
+onMounted(async () => {
+  await fuse.setCollection(trunk.value);
+  await nextTick(update);
+});
+
+onUnmounted(() => {
+  fuse.terminate();
+});
+
+async function update() {
+  let newCards: TrunkEntry[];
+  const search = searchValue.value.trim();
+
+  if (search) {
+    const results = await fuse.search(search);
+    newCards = results.map((result) => {
+      return result.item;
+    });
+  }
+  else {
+    newCards = [...trunk.value];
+  }
+
+  newCards.sort((a, b) => compare(a.name, b.name));
+
+  cards.value = newCards;
+}
 </script>
 
 <template>
