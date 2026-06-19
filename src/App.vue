@@ -46,8 +46,8 @@ watch(() => trunk.value, async (values) => {
 });
 
 watchDebounced(searchValue, update, {
-  debounce: 300,
-  maxWait: 1000,
+  debounce: 100,
+  maxWait: 300,
 });
 
 onMounted(async () => {
