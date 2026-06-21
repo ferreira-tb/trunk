@@ -3,7 +3,7 @@ import { compare } from "@/lib/intl";
 import { FuseWorker } from "fuse.js/worker";
 import { type Option, toPixel } from "@tb-dev/utils";
 import { useColorMode, watchDebounced } from "@vueuse/core";
-import { asyncRef, sessionRef, useWidth } from "@tb-dev/vue";
+import { asyncRef, onCtrlKeyDown, sessionRef, useWidth } from "@tb-dev/vue";
 import { Input, Table, TableBody, TableCell, TableRow } from "@tb-dev/vue-components";
 import { nextTick, onMounted, onUnmounted, shallowRef, useTemplateRef, watch } from "vue";
 
@@ -57,6 +57,10 @@ onMounted(async () => {
 
 onUnmounted(() => {
   fuse.terminate();
+});
+
+onCtrlKeyDown(["g", "G"], () => {
+  window.open("https://github.com/ferreira-tb/trunk", "_blank")?.focus();
 });
 
 async function update() {
