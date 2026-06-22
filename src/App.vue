@@ -95,10 +95,10 @@ async function update() {
           <TableBody>
             <template v-for="card of cards" :key="card.card_id">
               <TableRow>
-                <TableCell class="max-w-max p-0">
-                  <span class="px-2">{{ card.amount }}</span>
+                <TableCell class="max-w-min p-0">
+                  <span class="px-2 lg:pr-4">{{ card.amount }}</span>
                 </TableCell>
-                <TableCell>
+                <TableCell class="w-full">
                   <span>{{ card.name }}</span>
                 </TableCell>
               </TableRow>
