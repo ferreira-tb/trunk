@@ -12,6 +12,7 @@ interface TrunkEntry {
   readonly name: string;
   readonly name_pt: Option<string>;
   readonly archetype: Option<string>;
+  readonly ygoprodeck_url: Option<string>;
   readonly amount: number;
 }
 
@@ -60,7 +61,7 @@ onUnmounted(() => {
 });
 
 onCtrlKeyDown(["g", "G"], () => {
-  window.open("https://github.com/ferreira-tb/trunk", "_blank")?.focus();
+  openUrl("https://github.com/ferreira-tb/trunk");
 });
 
 async function update() {
@@ -81,20 +82,39 @@ async function update() {
 
   cards.value = newCards;
 }
+
+function openUrl(url: string) {
+  window.open(url, "_blank")?.focus();
+}
+
+function openYugipedia(entry: TrunkEntry) {
+  openUrl(`https://yugipedia.com/index.php?search=${entry.name}`);
+}
 </script>
 
 <template>
   <main class="fixed inset-0">
     <div class="size-full flex flex-col gap-2 overflow-hidden p-4">
       <div class="flex items-center">
-        <Input v-model="searchValue" :style="{ width: toPixel(tableWidth) }" />
+        <Input
+          v-model="searchValue"
+          :style="{ width: toPixel(tableWidth) }"
+          @keydown.stop
+        />
       </div>
 
       <div class="size-full overflow-auto pr-4">
         <Table ref="tableEl" class="min-w-max">
           <TableBody>
             <template v-for="card of cards" :key="card.card_id">
-              <TableRow>
+              <TableRow
+                v-if="card.amount > 0"
+                role="link"
+                tabindex="0"
+                class="cursor-pointer"
+                @click="() => openYugipedia(card)"
+                @keydown.enter="() => openYugipedia(card)"
+              >
                 <TableCell class="max-w-min p-0">
                   <span class="px-2 lg:pr-4">{{ card.amount }}</span>
                 </TableCell>
