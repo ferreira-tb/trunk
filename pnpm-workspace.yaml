@@ -1,2 +1,6 @@
+minimumReleaseAgeExclude:
+  - "@tb-dev/*"
+  - "@tsukilabs/*"
+
 allowBuilds:
   vue-demi: false
