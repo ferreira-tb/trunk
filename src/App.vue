@@ -79,8 +79,8 @@ function openUrl(url: string) {
   window.open(url, "_blank")?.focus();
 }
 
-function openYugipedia(entry: TrunkEntry) {
-  openUrl(`https://yugipedia.com/index.php?search=${entry.name}`);
+function createYugipediaUrl(entry: TrunkEntry) {
+  return `https://yugipedia.com/index.php?search=${entry.name}`;
 }
 </script>
 
@@ -99,19 +99,19 @@ function openYugipedia(entry: TrunkEntry) {
         <Table ref="tableEl" class="min-w-max">
           <TableBody>
             <template v-for="card of cards" :key="card.card_id">
-              <TableRow
-                v-if="card.amount > 0"
-                role="link"
-                tabindex="0"
-                class="cursor-pointer"
-                @click="() => openYugipedia(card)"
-                @keydown.enter="() => openYugipedia(card)"
-              >
+              <TableRow v-if="card.amount > 0">
                 <TableCell class="max-w-min p-0">
                   <span class="px-2 lg:pr-4">{{ card.amount }}</span>
                 </TableCell>
                 <TableCell class="w-full">
-                  <span>{{ card.name }}</span>
+                  <a
+                    :href="createYugipediaUrl(card)"
+                    target="_blank"
+                    rel="nofollow noopener noreferrer"
+                    class="no-underline text-inherit"
+                  >
+                    <span>{{ card.name }}</span>
+                  </a>
                 </TableCell>
               </TableRow>
             </template>
