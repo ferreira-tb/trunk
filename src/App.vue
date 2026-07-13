@@ -2,10 +2,11 @@
 import { compare } from "@/lib/intl";
 import { FuseWorker } from "fuse.js/worker";
 import { type Option, toPixel } from "@tb-dev/utils";
+import trunk from "./trunk.json" with { type: "json" };
 import { useColorMode, watchDebounced } from "@vueuse/core";
-import { asyncRef, onCtrlKeyDown, sessionRef, useWidth } from "@tb-dev/vue";
+import { onCtrlKeyDown, sessionRef, useWidth } from "@tb-dev/vue";
+import { nextTick, onMounted, onUnmounted, shallowRef, useTemplateRef } from "vue";
 import { Input, Table, TableBody, TableCell, TableRow } from "@tb-dev/vue-components";
-import { nextTick, onMounted, onUnmounted, shallowRef, useTemplateRef, watch } from "vue";
 
 interface TrunkEntry {
   readonly card_id: string;
@@ -15,10 +16,6 @@ interface TrunkEntry {
   readonly ygoprodeck_url: Option<string>;
   readonly amount: number;
 }
-
-const { state: trunk } = asyncRef<TrunkEntry[]>([], async () => {
-  return fetch("trunk.json").then((it) => it.json());
-});
 
 const searchValue = sessionRef("trunk-search", "");
 
@@ -41,18 +38,13 @@ useColorMode({
   writeDefaults: true,
 });
 
-watch(() => trunk.value, async (values) => {
-  await fuse.setCollection(values);
-  await update();
-});
-
 watchDebounced(searchValue, update, {
   debounce: 100,
   maxWait: 300,
 });
 
 onMounted(async () => {
-  await fuse.setCollection(trunk.value);
+  await fuse.setCollection(trunk);
   await nextTick(update);
 });
 
@@ -75,7 +67,7 @@ async function update() {
     });
   }
   else {
-    newCards = [...trunk.value];
+    newCards = [...trunk];
   }
 
   newCards.sort((a, b) => compare(a.name, b.name));
