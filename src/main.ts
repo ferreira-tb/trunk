@@ -1,4 +1,6 @@
+import "@tb-dev/vue-sonner/style.css";
 import "@/assets/style.css";
+import "@tb-dev/prototype-dom";
 import App from "@/App.vue";
 import { createApp } from "vue";
 import { router } from "@/router";

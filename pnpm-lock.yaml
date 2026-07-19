@@ -11,9 +11,12 @@ importers:
       '@lucide/vue':
         specifier: '=1.25.0'
         version: 1.25.0(vue@3.5.40(typescript@6.0.3))
+      '@tb-dev/prototype-dom':
+        specifier: '=7.0.52'
+        version: 7.0.52
       '@tb-dev/utils':
-        specifier: '=8.0.0'
-        version: 8.0.0
+        specifier: '=8.1.0'
+        version: 8.1.0
       '@tb-dev/vue':
         specifier: '=4.0.28'
         version: 4.0.28(typescript@6.0.3)
@@ -429,8 +432,11 @@ packages:
   '@tb-dev/eslint-config@10.2.1':
     resolution: {integrity: sha512-1cbIXr4Ei7esZwrpIicV7CDY14uJrhgsGiyGJB1AP+eKOIXbu/Furg5TIz9kzg71eMlKxo6QrUdnJ1PoqM3Wog==}
 
-  '@tb-dev/utils@8.0.0':
-    resolution: {integrity: sha512-4LbqQItjuoCv30yHTXJ/Zt+j4RdDqKz+jZi/0+9BMWt53AcTA9pV1lUWGjTbX4ekCvq/pfdH1R2TjLQ62n2Paw==}
+  '@tb-dev/prototype-dom@7.0.52':
+    resolution: {integrity: sha512-DMN8xxleeixSaocqgbNGMxz1X7tmnJr5AKSB4fsPPh0TGIKM/Y9FqaIVflPmDOSkGkPIKi7uI8qm50ol5kKdWQ==}
+
+  '@tb-dev/utils@8.1.0':
+    resolution: {integrity: sha512-MMmyX8KL+062gpvrqzqXivHcC90BjPl4YzDjgV/6TaoXDEcP9AoTy7er37cnJBcDJjU0XipBiQTQpH2Vp21rug==}
 
   '@tb-dev/vue-components@7.1.28':
     resolution: {integrity: sha512-lFBglYUJAY2+fdj1s8kJ3httvKREM8E9HxWa03khCKBcAdC3yGWefoJr0eWoMVorkcauJR5nJsnxJPNdndbmXg==}
@@ -1769,14 +1775,18 @@ snapshots:
       - supports-color
       - typescript
 
-  '@tb-dev/utils@8.0.0':
+  '@tb-dev/prototype-dom@7.0.52':
+    dependencies:
+      '@tb-dev/utils': 8.1.0
+
+  '@tb-dev/utils@8.1.0':
     dependencies:
       es-toolkit: 1.49.0
 
   '@tb-dev/vue-components@7.1.28(@vue/compiler-sfc@3.5.40)(pinia@4.0.2(@vue/devtools-api@8.1.5)(typescript@6.0.3)(vue@3.5.40(typescript@6.0.3)))(rolldown@1.1.5)(typescript@6.0.3)(vite@8.1.5(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0))':
     dependencies:
       '@lucide/vue': 1.25.0(vue@3.5.40(typescript@6.0.3))
-      '@tb-dev/utils': 8.0.0
+      '@tb-dev/utils': 8.1.0
       '@tb-dev/vue': 4.0.28(typescript@6.0.3)
       '@tb-dev/vue-sonner': 1.0.8(typescript@6.0.3)
       '@vueuse/core': 14.3.0(vue@3.5.40(typescript@6.0.3))
@@ -1812,7 +1822,7 @@ snapshots:
 
   '@tb-dev/vue@4.0.28(typescript@6.0.3)':
     dependencies:
-      '@tb-dev/utils': 8.0.0
+      '@tb-dev/utils': 8.1.0
       '@vueuse/core': 14.3.0(vue@3.5.40(typescript@6.0.3))
       es-toolkit: 1.49.0
       vue: 3.5.40(typescript@6.0.3)

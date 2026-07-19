@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "@lucide/vue": "=1.25.0",
-    "@tb-dev/utils": "=8.0.0",
+    "@tb-dev/prototype-dom": "=7.0.52",
+    "@tb-dev/utils": "=8.1.0",
     "@tb-dev/vue": "=4.0.28",
     "@tb-dev/vue-components": "=7.1.28",
     "@tb-dev/vue-sonner": "=1.0.8",

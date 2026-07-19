@@ -6,7 +6,7 @@ import { go, type Route } from "@/router";
 import { FuseWorker } from "fuse.js/worker";
 import { useColorMode, watchDebounced } from "@vueuse/core";
 import trunk from "../assets/trunk.json" with { type: "json" };
-import { nextTick, onMounted, onUnmounted, shallowRef } from "vue";
+import { nextTick, onActivated, onMounted, onUnmounted, shallowRef } from "vue";
 import {
   Button,
   DropdownMenu,
@@ -21,6 +21,9 @@ import {
   TableRow,
 } from "@tb-dev/vue-components";
 
+const cards = shallowRef<TrunkEntry[]>([]);
+const currentCard = shallowRef<TrunkEntry>();
+
 const searchValue = sessionRef("trunk-search", "");
 
 const fuse = new FuseWorker([] as TrunkEntry[], {
@@ -31,8 +34,6 @@ const fuse = new FuseWorker([] as TrunkEntry[], {
 }, {
   numWorkers: 4,
 });
-
-const cards = shallowRef<TrunkEntry[]>([]);
 
 useColorMode({
   initialValue: "dark",
@@ -51,6 +52,19 @@ onMounted(async () => {
 
 onUnmounted(() => {
   fuse.terminate();
+});
+
+onActivated(async () => {
+  if (currentCard.value) {
+    const id = getRowId(currentCard.value);
+    await document.waitScroll(`#${id}`, {
+      behavior: "instant",
+      block: "center",
+      inline: "nearest",
+      timeout: 2_000,
+      throwOnTimeout: false,
+    });
+  }
 });
 
 async function update() {
@@ -74,6 +88,11 @@ async function update() {
 
 async function goToCardView(card: TrunkEntry) {
   await go("card", { query: { id: card.card_id } });
+  currentCard.value = card;
+}
+
+function getRowId(card: TrunkEntry) {
+  return `card-${card.card_id}`;
 }
 </script>
 
@@ -108,6 +127,7 @@ async function goToCardView(card: TrunkEntry) {
           <template v-for="card of cards" :key="card.card_id">
             <TableRow
               v-if="card.amount > 0"
+              :id="getRowId(card)"
               role="link"
               tabindex="0"
               class="cursor-pointer"

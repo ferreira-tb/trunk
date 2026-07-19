@@ -32,7 +32,7 @@
     "forceConsistentCasingInFileNames": true,
     "noEmitOnError": true,
 
-    "types": ["node", "vite/client"]
+    "types": ["@tb-dev/prototype-dom", "node", "vite/client"]
   },
 
   "vueCompilerOptions": {
