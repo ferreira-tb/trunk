@@ -26,7 +26,7 @@ const description = computed(() => {
         :alt="card.name"
         decoding="async"
         loading="eager"
-        referrerpolicy="unsafe-url"
+        referrerpolicy="origin"
         class="max-h-1/2 object-scale-down"
       >
 
