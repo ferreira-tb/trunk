@@ -1,7 +1,7 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHashHistory } from "vue-router";
 
 export const router = createRouter({
-  history: createWebHistory("/trunk"),
+  history: createWebHashHistory("/trunk"),
   routes: [
     {
       path: "/",
@@ -9,7 +9,7 @@ export const router = createRouter({
       component: () => import("@/views/Home.vue"),
     },
     {
-      path: "/card/:id",
+      path: "/card",
       name: "card",
       component: () => import("@/views/Card.vue"),
     },

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useRouteParams } from "@vueuse/router";
+import { useRouteQuery } from "@vueuse/router";
 import { openLiga, openYugipedia } from "@/lib/url";
 import { Badge, Button } from "@tb-dev/vue-components";
 import trunk from "../assets/trunk.json" with { type: "json" };
 
-const cardId = useRouteParams("id");
+const cardId = useRouteQuery("id");
 const card = computed(() => {
   return trunk.find((it) => it.card_id === cardId.value);
 });

@@ -66,7 +66,10 @@ async function update() {
 }
 
 async function goToCardView(card: TrunkEntry) {
-  await router.push(`/card/${card.card_id}`);
+  await router.push({
+    name: "card",
+    query: { id: card.card_id },
+  });
 }
 </script>
 
