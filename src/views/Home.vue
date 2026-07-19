@@ -4,6 +4,7 @@ import { MenuIcon } from "@lucide/vue";
 import { sessionRef } from "@tb-dev/vue";
 import { go, type Route } from "@/router";
 import { FuseWorker } from "fuse.js/worker";
+import { onBeforeRouteLeave } from "vue-router";
 import { useColorMode, watchDebounced } from "@vueuse/core";
 import trunk from "../assets/trunk.json" with { type: "json" };
 import { nextTick, onActivated, onMounted, onUnmounted, shallowRef } from "vue";
@@ -59,10 +60,22 @@ onActivated(async () => {
     const id = getRowId(currentCard.value);
     await document.waitScroll(`#${id}`, {
       behavior: "instant",
-      block: "center",
+      block: "start",
       inline: "nearest",
       timeout: 2_000,
       throwOnTimeout: false,
+    });
+  }
+});
+
+onBeforeRouteLeave((to) => {
+  if (to.name !== ("home" satisfies Route)) {
+    const rows = document.queryAsArray(".card-table-row")
+      .filter((row) => isVisible(row));
+
+    const row = rows.at(1) ?? rows.at(0);
+    currentCard.value = cards.value.find((card) => {
+      return row?.id === getRowId(card);
     });
   }
 });
@@ -88,11 +101,20 @@ async function update() {
 
 async function goToCardView(card: TrunkEntry) {
   await go("card", { query: { id: card.card_id } });
-  currentCard.value = card;
 }
 
 function getRowId(card: TrunkEntry) {
   return `card-${card.card_id}`;
+}
+
+function isVisible(element: Element) {
+  const rect = element.getBoundingClientRect();
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= window.innerHeight &&
+    rect.right <= window.innerWidth
+  );
 }
 </script>
 
@@ -130,7 +152,7 @@ function getRowId(card: TrunkEntry) {
               :id="getRowId(card)"
               role="link"
               tabindex="0"
-              class="cursor-pointer"
+              class="card-table-row cursor-pointer"
               @click.stop="() => void goToCardView(card)"
               @keydown.enter.stop="() => void goToCardView(card)"
               @keydown.space.stop="() => void goToCardView(card)"
