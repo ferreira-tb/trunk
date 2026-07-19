@@ -1,15 +1,25 @@
 <script setup lang="ts">
 import { compare } from "@/lib/intl";
-import { useRouter } from "vue-router";
-import { toPixel } from "@tb-dev/utils";
+import { MenuIcon } from "@lucide/vue";
+import { sessionRef } from "@tb-dev/vue";
+import { go, type Route } from "@/router";
 import { FuseWorker } from "fuse.js/worker";
-import { sessionRef, useWidth } from "@tb-dev/vue";
 import { useColorMode, watchDebounced } from "@vueuse/core";
 import trunk from "../assets/trunk.json" with { type: "json" };
-import { nextTick, onMounted, onUnmounted, shallowRef, useTemplateRef } from "vue";
-import { Input, Table, TableBody, TableCell, TableRow } from "@tb-dev/vue-components";
-
-const router = useRouter();
+import { nextTick, onMounted, onUnmounted, shallowRef } from "vue";
+import {
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  Input,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+} from "@tb-dev/vue-components";
 
 const searchValue = sessionRef("trunk-search", "");
 
@@ -23,9 +33,6 @@ const fuse = new FuseWorker([] as TrunkEntry[], {
 });
 
 const cards = shallowRef<TrunkEntry[]>([]);
-
-const table = useTemplateRef("tableEl");
-const tableWidth = useWidth(table);
 
 useColorMode({
   initialValue: "dark",
@@ -66,25 +73,37 @@ async function update() {
 }
 
 async function goToCardView(card: TrunkEntry) {
-  await router.push({
-    name: "card",
-    query: { id: card.card_id },
-  });
+  await go("card", { query: { id: card.card_id } });
 }
 </script>
 
 <template>
-  <div class="size-full flex flex-col gap-2 overflow-hidden p-4">
-    <div class="flex items-center">
-      <Input
-        v-model="searchValue"
-        :style="{ width: toPixel(tableWidth) }"
-        @keydown.stop
-      />
+  <div class="size-full grid grid-cols-1 gap-2 overflow-hidden p-4">
+    <div class="flex items-center gap-2">
+      <Input v-model="searchValue" @keydown.stop />
+      <div class="flex items-center gap-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger as-child>
+            <Button variant="ghost" size="icon">
+              <MenuIcon stroke-width="1.5px" />
+            </Button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent align="end" :align-offset="-15" side="bottom" class="w-56">
+            <DropdownMenuGroup>
+              <DropdownMenuItem>
+                <RouterLink :to="{ name: 'settings' satisfies Route }" class="w-full">
+                  <span>Settings</span>
+                </RouterLink>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </div>
 
     <div class="size-full overflow-auto pr-4">
-      <Table ref="tableEl" class="min-w-max">
+      <Table class="min-w-max">
         <TableBody>
           <template v-for="card of cards" :key="card.card_id">
             <TableRow

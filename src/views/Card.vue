@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRouteQuery } from "@vueuse/router";
+import { useSettings } from "@/stores/settings";
 import { openLiga, openYugipedia } from "@/lib/url";
 import { Badge, Button } from "@tb-dev/vue-components";
 import trunk from "../assets/trunk.json" with { type: "json" };
+
+const settings = useSettings();
 
 const cardId = useRouteQuery("id");
 const card = computed(() => {
@@ -22,6 +25,7 @@ const description = computed(() => {
   <div class="size-full overflow-hidden p-4">
     <div v-if="card" class="size-full flex flex-col gap-2">
       <img
+        v-if="settings.showCardImages"
         :src="`https://tsukilabs.dev.br/ygo/${card.card_id}`"
         :alt="card.name"
         decoding="async"
