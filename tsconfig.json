@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*", "src/**/*.vue", "**/*.config.ts"],
+  "include": ["scripts/*.mts", "src/**/*", "src/**/*.vue", "**/*.config.ts"],
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"]

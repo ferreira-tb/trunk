@@ -6,6 +6,7 @@
   "packageManager": "pnpm@11.15.1",
   "scripts": {
     "build": "vite build",
+    "csv": "node scripts/csv.mts",
     "dev": "vite",
     "format": "dprint fmt",
     "lint": "eslint . --config eslint.config.ts",

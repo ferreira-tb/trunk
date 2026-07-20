@@ -30,6 +30,7 @@ jobs:
 
       - run: |
           pnpm ci
+          pnpm run csv
           pnpm run build
           touch dist/.nojekyll
 
