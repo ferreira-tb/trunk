@@ -119,7 +119,7 @@ function isVisible(element: Element) {
 </script>
 
 <template>
-  <div class="size-full grid grid-cols-1 gap-2 overflow-hidden p-4">
+  <div class="size-full grid grid-cols-1 grid-rows-[max-content_1fr] gap-2 overflow-hidden p-4">
     <div class="flex items-center gap-2">
       <Input v-model="searchValue" @keydown.stop />
       <div class="flex items-center gap-2">
