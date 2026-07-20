@@ -23,7 +23,7 @@ const description = computed(() => {
 
 <template>
   <div class="size-full overflow-hidden p-4">
-    <div v-if="card" class="size-full flex flex-col gap-2">
+    <div v-if="card" class="size-full flex flex-col lg:flex-row gap-2 lg:gap-4">
       <img
         v-if="settings.showCardImages"
         :src="`https://tsukilabs.dev.br/ygo/${card.card_id}`"
@@ -31,10 +31,10 @@ const description = computed(() => {
         decoding="async"
         loading="eager"
         referrerpolicy="origin"
-        class="max-h-1/2 object-scale-down"
+        class="max-lg:max-h-1/2 object-scale-down"
       >
 
-      <div class="h-full flex flex-col justify-between gap-1 overflow-hidden">
+      <div class="size-full flex flex-col justify-between gap-1 overflow-hidden">
         <div class="flex flex-col gap-1 overflow-x-hidden overflow-y-auto pr-2">
           <div class="flex justify-between gap-2">
             <h1 class="font-bold select-text">{{ card.name }}</h1>
