@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { handleError } from "@/lib/error";
 import { useRouteQuery } from "@vueuse/router";
 import { useSettings } from "@/stores/settings";
 import { openLiga, openYugipedia } from "@/lib/url";
@@ -19,6 +20,21 @@ const description = computed(() => {
     .map((line) => line.trim())
     .filter((line) => line.length > 0);
 });
+
+async function copyCardText() {
+  if (card.value?.description) {
+    let text = `${card.value.name}\n`;
+    text += `${card.value.card_type}\n\n`;
+    text += card.value.description;
+
+    try {
+      await navigator.clipboard.writeText(text);
+    }
+    catch (err) {
+      handleError(err);
+    }
+  }
+}
 </script>
 
 <template>
@@ -66,13 +82,15 @@ const description = computed(() => {
           <p v-for="(line, idx) of description" :key="idx" class="select-text">{{ line }}</p>
         </div>
 
-        <div class="grid grid-cols-2 justify-center items-center gap-2">
+        <div class="grid grid-cols-3 justify-center items-center gap-2">
           <Button variant="outline" @click="() => void (card && openLiga(card))">
             <span>Buy</span>
           </Button>
-
           <Button variant="outline" @click="() => void (card && openYugipedia(card))">
             <span>Wiki</span>
+          </Button>
+          <Button variant="outline" @click="copyCardText">
+            <span>Copy</span>
           </Button>
         </div>
       </div>

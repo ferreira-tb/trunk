@@ -5,7 +5,7 @@ import { fileURLToPath, URL } from "node:url";
 
 export default defineConfig({
   plugins: [
-    tailwind(),
+    tailwind({ optimize: { minify: true } }),
     vue({ features: { optionsAPI: false } }),
   ],
   resolve: {

@@ -2,6 +2,7 @@
 import { compare } from "@/lib/intl";
 import { MenuIcon } from "@lucide/vue";
 import { sessionRef } from "@tb-dev/vue";
+import { handleError } from "@/lib/error";
 import { go, type Route } from "@/router";
 import { FuseWorker } from "fuse.js/worker";
 import { onBeforeRouteLeave } from "vue-router";
@@ -116,6 +117,18 @@ function isVisible(element: Element) {
     rect.right <= window.innerWidth
   );
 }
+
+async function copyTrunkCsv() {
+  try {
+    const url = "https://tb.dev.br/trunk/trunk.csv";
+    const response = await fetch(url);
+    const csv = await response.text();
+    await navigator.clipboard.writeText(csv);
+  }
+  catch (err) {
+    handleError(err);
+  }
+}
 </script>
 
 <template>
@@ -132,6 +145,9 @@ function isVisible(element: Element) {
 
           <DropdownMenuContent align="end" :align-offset="-15" side="bottom" class="w-56">
             <DropdownMenuGroup>
+              <DropdownMenuItem @click="copyTrunkCsv">
+                <span>Copy CSV</span>
+              </DropdownMenuItem>
               <DropdownMenuItem>
                 <RouterLink :to="{ name: 'settings' satisfies Route }" class="w-full">
                   <span>Settings</span>
