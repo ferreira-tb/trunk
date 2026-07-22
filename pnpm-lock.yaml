@@ -21,8 +21,8 @@ importers:
         specifier: '=4.0.29'
         version: 4.0.29(typescript@6.0.3)
       '@tb-dev/vue-components':
-        specifier: '=7.4.0'
-        version: 7.4.0(@vue/compiler-sfc@3.5.40)(pinia@4.0.2(@vue/devtools-api@8.1.5)(typescript@6.0.3)(vue@3.5.40(typescript@6.0.3)))(rolldown@1.1.5)(typescript@6.0.3)(vite@8.1.5(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0))
+        specifier: '=7.5.0'
+        version: 7.5.0(@vue/compiler-sfc@3.5.40)(pinia@4.0.2(@vue/devtools-api@8.1.5)(typescript@6.0.3)(vue@3.5.40(typescript@6.0.3)))(rolldown@1.1.5)(typescript@6.0.3)(vite@8.1.5(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0))
       '@tb-dev/vue-sonner':
         specifier: '=1.0.9'
         version: 1.0.9(typescript@6.0.3)
@@ -442,8 +442,8 @@ packages:
   '@tb-dev/utils@8.1.1':
     resolution: {integrity: sha512-5sHyYt+dcdSpQANRRrmJXDsNMkRD8aQMibxBunCgxBrvP25bZrm3QgSSNGsR0Ogk+XQ+mbqgHlBVMx6Rf+9T1A==}
 
-  '@tb-dev/vue-components@7.4.0':
-    resolution: {integrity: sha512-McGTOIl+faiaV1yBJ9J8iOAyWtx/LwqUOentRef5LMaJFjAwtWMkB/onwXUWdZxxUMFrU+Pfp3sih+GN1cYNFg==}
+  '@tb-dev/vue-components@7.5.0':
+    resolution: {integrity: sha512-rbvrCKbMXbzuHhtcyyMj3Hw7pJfzpC2m/063OYup3VNCDJ2a1C7t575420CvTEMCFgiQynJ7q46RGVor13zXLQ==}
 
   '@tb-dev/vue-sonner@1.0.9':
     resolution: {integrity: sha512-ZQH4ckNc7SNYBr52wKfQOmWSCCS3RgUNWHqYVVkRqZTrFL5l4A988HDIjSU6fS6TtV/8g/sMBxMQ/J3V5meMMA==}
@@ -1836,7 +1836,7 @@ snapshots:
     dependencies:
       es-toolkit: 1.49.0
 
-  '@tb-dev/vue-components@7.4.0(@vue/compiler-sfc@3.5.40)(pinia@4.0.2(@vue/devtools-api@8.1.5)(typescript@6.0.3)(vue@3.5.40(typescript@6.0.3)))(rolldown@1.1.5)(typescript@6.0.3)(vite@8.1.5(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0))':
+  '@tb-dev/vue-components@7.5.0(@vue/compiler-sfc@3.5.40)(pinia@4.0.2(@vue/devtools-api@8.1.5)(typescript@6.0.3)(vue@3.5.40(typescript@6.0.3)))(rolldown@1.1.5)(typescript@6.0.3)(vite@8.1.5(@types/node@26.1.1)(jiti@2.7.0)(yaml@2.9.0))':
     dependencies:
       '@lucide/vue': 1.25.0(vue@3.5.40(typescript@6.0.3))
       '@tb-dev/utils': 8.1.1
